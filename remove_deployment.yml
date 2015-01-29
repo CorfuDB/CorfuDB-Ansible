@@ -2,7 +2,6 @@
 
 - hosts : all
   name: "remove all CorfuDB packages"
-  when: from_git is defined and from_git == true and git_updated.changed
   apt: name={{ item }} state=absent
   sudo: yes
   with_items:
