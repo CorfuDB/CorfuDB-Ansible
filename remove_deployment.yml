@@ -1,12 +1,13 @@
 ---
 
 - hosts : all
-  name: "remove all CorfuDB packages"
-  apt: name={{ item }} state=absent
-  sudo: yes
-  with_items:
-      - corfudb-logunit
-      - corfudb-sequencer
-      - corfudb-configmaster
-      - corfudb-common
+  tasks:
+      - name: "remove all CorfuDB packages"
+        apt: name={{ item }} state=absent
+        sudo: yes
+        with_items:
+            - corfudb-logunit
+            - corfudb-sequencer
+            - corfudb-configmaster
+            - corfudb-common
 
