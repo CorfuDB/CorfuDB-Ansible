@@ -4,6 +4,8 @@
   apt: deb=/tmp/CorfuDB/target/corfudb-0.1-SNAPSHOT-sequencer.deb
   sudo: yes
   when: corfudb_pkg_src == "from_git"
+  notify:
+      - restart sequencer
 
 - name: "Generate and install Sequencer configuration"
   sudo: yes

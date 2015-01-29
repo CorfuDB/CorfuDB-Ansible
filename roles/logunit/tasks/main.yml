@@ -4,6 +4,7 @@
   apt: deb=/tmp/CorfuDB/target/corfudb-0.1-SNAPSHOT-logunit.deb
   sudo: yes
   when: corfudb_pkg_src == "from_git"
+  notify: restart logunit
 
 - name: "Generate and install logunit configuration"
   sudo: yes

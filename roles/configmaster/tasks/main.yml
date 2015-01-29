@@ -4,6 +4,8 @@
   apt: deb=/tmp/CorfuDB/target/corfudb-0.1-SNAPSHOT-configmaster.deb
   sudo: yes
   when: corfudb_pkg_src == "from_git"
+  notify:
+      - restart configuration master
 
 - name: "Generate and install configmaster configuration"
   sudo: yes
