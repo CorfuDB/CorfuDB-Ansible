@@ -1,0 +1,5 @@
+---
+#default values for logunit
+logunit_port: 8001
+capacity: 100000
+ramdisk: true

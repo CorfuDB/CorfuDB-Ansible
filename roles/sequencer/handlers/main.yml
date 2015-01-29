@@ -1,0 +1,4 @@
+---
+
+- name: restart sequencer
+  service: name=CorfuDB-sequencer state=restarted

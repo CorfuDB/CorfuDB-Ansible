@@ -1,0 +1,13 @@
+---
+
+role: org.corfudb.sharedlog.loggingunit.LogUnitTask
+port: {{ logunit_port }}
+capacity: {{ capacity }}
+ramdisk: {{ ramdisk }}
+{% if ramdisk == false %}
+recovery: {{ recovery }}
+drive: {{ drive }}
+{% endif %}
+pagesize: {{ pagesize }}
+trim: 0
+master: http://{{ hostvars[groups['configmasters'][0]]['ansible_default_ipv4']['address'] }}:{{ hostvars[groups['configmasters'][0]]['configmaster_port']}}/corfu

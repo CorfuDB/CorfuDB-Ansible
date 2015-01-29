@@ -1,0 +1,16 @@
+---
+
+- name: "Install Sequencer from git packging"
+  apt: deb=/tmp/CorfuDB/target/corfudb-0.1-SNAPSHOT-sequencer.deb
+  sudo: yes
+  when: corfudb_pkg_src == "from_git"
+
+- name: "Generate and install Sequencer configuration"
+  sudo: yes
+  template: src=etc/corfudb/sequencer.yml.j2 dest=/etc/corfudb/sequencer.yml mode=644
+  notify:
+      - restart sequencer
+
+- name: "Start Sequencer (and do it on every boot)"
+  sudo: yes
+  service: name=CorfuDB-sequencer enabled=yes state=started

@@ -1,0 +1,16 @@
+
+[sequencers]
+sequencer_host
+
+[logunits]
+logunit_host_a
+logunit_host_b
+
+[configmasters]
+configmaster_host
+
+[all:vars]
+sequencer_port=8000
+logunit_port=8001
+configmaster_port=8002
+

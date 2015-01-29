@@ -1,0 +1,4 @@
+---
+
+- name: restart configuration master
+  service: name=CorfuDB-configmaster state=restarted

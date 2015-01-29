@@ -1,0 +1,20 @@
+---
+
+role: org.corfudb.sharedlog.ConfigMasterService
+port: {{ configmaster_port }}
+pagesize: {{ pagesize }}
+epoch: 0
+sequencer:
+    address: {{ hostvars[groups['sequencers'][0]]['ansible_default_ipv4']['address']}}
+    port: {{ hostvars[groups['sequencers'][0]]['sequencer_port']}}
+layout:
+    segments:
+        - start: 0
+          sealed: -1
+          groups:
+{% for logunit in groups['logunits'] %}
+             - nodes:
+                - { address: {{ hostvars[logunit]['ansible_default_ipv4']['address'] }}, port: {{ hostvars[logunit]['logunit_port'] }} }
+{% endfor %}
+          replicas: 1
+

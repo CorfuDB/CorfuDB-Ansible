@@ -1,0 +1,15 @@
+---
+
+- name: "Install logunit from git packging"
+  apt: deb=/tmp/CorfuDB/target/corfudb-0.1-SNAPSHOT-logunit.deb
+  sudo: yes
+  when: corfudb_pkg_src == "from_git"
+
+- name: "Generate and install logunit configuration"
+  sudo: yes
+  template: src=etc/corfudb/logunit.yml.j2 dest=/etc/corfudb/logunit.yml mode=644
+  notify: restart logunit
+
+- name: "Start logunit (and do it on every boot)"
+  sudo: yes
+  service: name=CorfuDB-logunit enabled=yes state=started

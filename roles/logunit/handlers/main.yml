@@ -1,0 +1,4 @@
+---
+
+- name: restart logunit
+  service: name=CorfuDB-logunit state=restarted

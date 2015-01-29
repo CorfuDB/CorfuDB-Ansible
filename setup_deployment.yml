@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  roles:
+    - common
+  vars:
+    from_git: true
+- hosts: sequencers
+  roles:
+      - sequencer
+
+- hosts: logunits
+  roles:
+      - logunit
+
+- hosts: configmasters
+  roles:
+      - configmaster

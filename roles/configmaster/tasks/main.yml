@@ -1,0 +1,16 @@
+---
+
+- name: "Install configmaster from git packging"
+  apt: deb=/tmp/CorfuDB/target/corfudb-0.1-SNAPSHOT-configmaster.deb
+  sudo: yes
+  when: corfudb_pkg_src == "from_git"
+
+- name: "Generate and install configmaster configuration"
+  sudo: yes
+  template: src=etc/corfudb/configmaster.yml.j2 dest=/etc/corfudb/configmaster.yml mode=644
+  notify:
+      - restart configuration master
+
+- name: "Start configmaster (and do it on every boot)"
+  sudo: yes
+  service: name=CorfuDB-configmaster enabled=yes state=started

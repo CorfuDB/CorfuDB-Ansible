@@ -1,0 +1,32 @@
+---
+
+- name: "Create CorfuDB git temporary repository directory"
+  when: from_git is defined and from_git == true
+  file: path=/tmp/CorfuDB state=directory
+
+- name: "Install CorfuDB git sources"
+  when: from_git is defined and from_git == true
+  git: repo=https://github.com/CorfuDB/CorfuDB dest=/tmp/CorfuDB
+  register: git_updated
+
+- name: "Build CorfuDB from git sources"
+  when: from_git is defined and from_git == true and git_updated.changed
+  shell: mvn install chdir=/tmp/CorfuDB
+
+- name: "Uninstall any old CorfuDB packages"
+  when: from_git is defined and from_git == true and git_updated.changed
+  apt: name={{ item }} state=absent
+  with_items:
+      - corfudb-logunit
+      - corfudb-sequencer
+      - corfudb-configmaster
+      - corfudb-common
+
+- name: "Install CorfuDB-common from git sources"
+  when: from_git is defined and from_git == true
+  sudo: yes
+  apt: deb=/tmp/CorfuDB/target/corfudb_0.1~SNAPSHOT_all.deb
+
+- name: "Set that CorfuDB is installed from git packaging"
+  set_fact:
+      corfudb_pkg_src: from_git
