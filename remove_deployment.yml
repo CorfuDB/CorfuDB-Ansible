@@ -2,6 +2,15 @@
 
 - hosts : all
   tasks:
+      - name: "ensure all CorfuDB services are stopped"
+        service: name={{ item }} state=stopped
+        ignore_errors: yes
+        sudo: yes
+        with_items:
+            - CorfuDB-sequencer
+            - CorfuDB-logunit
+            - CorfuDB-configmaster
+
       - name: "remove all CorfuDB packages"
         apt: name={{ item }} state=absent
         sudo: yes

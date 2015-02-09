@@ -1,12 +1,37 @@
 ---
 
+- name: "Install Preqrequisites"
+  apt: name={{ item }} state=present
+  sudo: yes
+  with_items:
+      - git
+      - maven
+      - thrift
+      - python-software-properties
+      - software-properties-common
+
+- name: "Install JAVA8 Repo"
+  sudo: yes
+  apt_repository: repo="ppa:webupd8team/java" update_cache=yes
+  register: java8
+
+- name: auto accept oracle jdk license
+  when: java8.changed
+  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+  sudo: yes
+
+- name: install java8
+  when: java8.changed
+  apt: name=oracle-java8-installer force=yes update-cache=yes state=latest
+  sudo: yes
+
 - name: "Create CorfuDB git temporary repository directory"
   when: from_git is defined and from_git == true
   file: path=/tmp/CorfuDB state=directory
 
 - name: "Install CorfuDB git sources"
   when: from_git is defined and from_git == true
-  git: repo=https://github.com/CorfuDB/CorfuDB dest=/tmp/CorfuDB
+  git: repo=https://github.com/CorfuDB/CorfuDB.git dest=/tmp/CorfuDB
   register: git_updated
 
 - name: "Build CorfuDB from git sources"
