@@ -64,3 +64,21 @@ script. For example, if your inventory file is named `inventory`:
 ```
 $ ansible-playbook setup_deployment.yml -i inventory
 ```
+##Common issues
+
+You might need to install sshpass. On Mac OS X:
+```
+$ brew install https://raw.github.com/eugeneoden/homebrew/eca9de1/Library/Formula/sshpass.rb
+```
+or
+```
+# Debian-flavored Linux
+$ sudo apt-get install sshpass
+```
+You might also have to put the following in the .ansible.cfg file in your home directory:
+```
+[defaults]
+host_key_checking=false
+[ssh_connection]
+control_path = %(directory)s/%%h-%%r
+```
